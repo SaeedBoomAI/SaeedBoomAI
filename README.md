@@ -131,3 +131,30 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+pages/api
+generate.js
+import axios from "axios";
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).end();
+  const { prompt } = req.body;
+
+  try {
+    const HF_API_TOKEN = process.env.HF_API_KEY; // তোমার Hugging Face API key
+    const response = await axios.post(
+      "https://api-inference.huggingface.co/models/damo-vilab/text-to-video-ms-1.7b",
+      { inputs: prompt },
+      {
+        headers: { Authorization: `Bearer ${HF_API_TOKEN}` },
+        responseType: "arraybuffer",
+      }
+    );
+
+    const base64Video = Buffer.from(response.data, "binary").toString("base64");
+    const videoUrl = `data:video/mp4;base64,${base64Video}`;
+
+    res.status(200).json({ videoUrl });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
