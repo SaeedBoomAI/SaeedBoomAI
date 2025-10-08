@@ -14,3 +14,10 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+SaeedBoomAI/
+├── package.json
+├── pages/
+│   └── index.js
+├── styles/
+│   └── globals.css
+└── README.md
